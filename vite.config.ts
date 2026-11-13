@@ -10,6 +10,6 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), tailwindcss()],
     server: { proxy },
     preview: { proxy },
-    test: { environment: 'jsdom', setupFiles: ['./src/test/setup.ts'], restoreMocks: true },
+    test: { include: ['src/**/*.test.{ts,tsx}'], environment: 'jsdom', setupFiles: ['./src/test/setup.ts'], restoreMocks: true },
   }
 })

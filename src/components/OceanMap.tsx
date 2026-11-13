@@ -32,7 +32,7 @@ export function OceanMap({ snapshot, showPatrolAreas = true }: { snapshot: GameS
       role="img" aria-label={`Ocean chart, ${snapshot.width} columns by ${snapshot.height} rows`} aria-describedby={descriptionId}>
       <desc id={descriptionId}>Your ship is at {formatCoordinate(snapshot.player)}. Treasure is at {formatCoordinate(snapshot.treasure)}.
         {' '}{snapshot.islands.length} islands, {snapshot.pirates.length} pirates, and {snapshot.monsters.length} sea monsters.
-        {' '}Entity positions are also listed in voyage details. Columns run west to east; rows run north to south.</desc>
+        {' '}Entity positions are also listed in voyage details. Island coordinates and monster patrol bounds are available in Map details below the chart. Columns run west to east; rows run north to south.</desc>
       <defs><pattern id={gridId} x={MARGIN} y={MARGIN} width={CELL} height={CELL} patternUnits="userSpaceOnUse">
         <path d={`M ${CELL} 0 H 0 V ${CELL}`} fill="none" stroke="#9ad6c5" strokeOpacity="0.5" strokeWidth="0.7" />
       </pattern></defs>

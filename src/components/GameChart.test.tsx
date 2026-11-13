@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { expect, it } from 'vitest'
 import { chartFixture } from '../test/chartFixture'
 import { GameChart } from './GameChart'
@@ -24,4 +24,24 @@ it('lets the player toggle patrol areas without changing the game snapshot', () 
   expect(toggle).not.toBeChecked()
   expect(container.querySelector('[data-patrol-id]')).toBeNull()
   expect(screen.getByText('Turn 0')).toBeInTheDocument()
+})
+
+it('provides terrain coordinates and inclusive monster patrol bounds as text', () => {
+  render(<GameChart snapshot={chartFixture.snapshot} />)
+  const disclosure = screen.getByText('Map details')
+  fireEvent.click(disclosure)
+  const islands = screen.getByRole('list', { name: 'Island coordinates' })
+  expect(within(islands).getAllByRole('listitem')).toHaveLength(1)
+  expect(islands).toHaveTextContent('B1')
+  const patrols = screen.getByRole('list', { name: 'Monster patrol bounds' })
+  expect(patrols).toHaveTextContent('Sea monster 1: A2 to C2, inclusive')
+  fireEvent.click(screen.getByRole('checkbox', { name: 'Show monster patrol areas' }))
+  expect(patrols).toHaveTextContent('A2 to C2, inclusive')
+  expect(screen.getByRole('img', { name: 'Ocean chart, 3 columns by 2 rows' })).toHaveAccessibleDescription(/Map details/)
+})
+it('explains when the chart has no islands or monster patrols', () => {
+  render(<GameChart snapshot={{ ...chartFixture.snapshot, islands: [], monsters: [] }} />)
+  fireEvent.click(screen.getByText('Map details'))
+  expect(screen.getByText('No islands on this chart.')).toBeInTheDocument()
+  expect(screen.getByText('No monster patrol areas.')).toBeInTheDocument()
 })

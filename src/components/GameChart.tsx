@@ -45,6 +45,21 @@ export function GameChart({ snapshot, movement, paused = false, actions }: { sna
           <ul aria-label="Map legend" className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 border-t border-parchment/10 pt-4 sm:grid-cols-3">
             {legend.map(kind => <li key={kind} className="flex items-center gap-2 text-xs text-parchment/70"><MapSymbol kind={kind} className="size-7 shrink-0" /><span>{symbolLabels[kind]}</span></li>)}
           </ul>
+          <details className="mt-4 border-t border-parchment/15 pt-4 text-xs text-parchment/80">
+            <summary className="min-h-11 cursor-pointer rounded-sm py-3 font-semibold text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">Map details</summary>
+            <p className="mb-3 leading-6">Islands block movement. Monster patrol bounds include every cell between the listed corners.</p>
+            <h2 className="mb-2 font-semibold text-parchment">Islands ({snapshot.islands.length})</h2>
+            {snapshot.islands.length > 0 ? <ul aria-label="Island coordinates" className="mb-4 grid grid-cols-4 gap-2 sm:grid-cols-8">
+              {[...snapshot.islands].sort((a, b) => a.y - b.y || a.x - b.x).map(position =>
+                <li key={`${position.x}-${position.y}`} className="tabular-nums">{formatCoordinate(position)}</li>)}
+            </ul> : <p className="mb-4">No islands on this chart.</p>}
+            <h2 className="mb-2 font-semibold text-parchment">Monster patrol areas</h2>
+            {snapshot.monsters.length > 0 ? <ul aria-label="Monster patrol bounds" className="space-y-2 leading-6">
+              {snapshot.monsters.map((monster, index) => <li key={monster.id}>
+                Sea monster {index + 1}: {formatCoordinate({ x: monster.roamingArea.minX, y: monster.roamingArea.minY })} to {formatCoordinate({ x: monster.roamingArea.maxX, y: monster.roamingArea.maxY })}, inclusive
+              </li>)}
+            </ul> : <p>No monster patrol areas.</p>}
+          </details>
         </div>
         <aside aria-label="Voyage details" className="space-y-5">
           {movement && <MovementControls {...movement} disabled={paused || snapshot.state !== 'PLAYING' || movement.needsSync} />}

@@ -27,3 +27,12 @@ button { font: inherit; }
     linear-gradient(#f4efdf03 1px, transparent 1px), linear-gradient(90deg, #f4efdf03 1px, transparent 1px);
   background-size: auto, 48px 48px, 48px 48px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

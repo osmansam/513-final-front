@@ -29,7 +29,7 @@ export function MovementControls({ onMove, onRefresh, busy, disabled, needsSync,
           className="flex min-h-14 flex-col items-center justify-center rounded-sm border border-seafoam/35 bg-seafoam/10 text-seafoam transition-colors hover:bg-seafoam/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:cursor-not-allowed disabled:opacity-35">
           <span aria-hidden="true" className="text-xl leading-6">{button.arrow}</span><kbd aria-hidden="true" className="text-[10px]">{button.key}</kbd>
         </button>)}
-        <span aria-hidden="true" style={{ gridArea: 'center' }} className="flex items-center justify-center text-[10px] uppercase tracking-widest text-parchment/40">Sail</span>
+        <span aria-hidden="true" style={{ gridArea: 'center' }} className="flex items-center justify-center text-[10px] uppercase tracking-widest text-parchment/65">Sail</span>
       </div>
       <p role="status" aria-label="Sailing feedback" aria-live="polite" className="text-sm leading-6 text-parchment/75">{busy ? 'Updating chart…' : feedback}</p>
       {error && <p role="alert" className="mt-3 text-sm leading-6 text-rose-200">{error}</p>}

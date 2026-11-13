@@ -4,8 +4,7 @@ import { columnLabel, formatCoordinate } from '../game/coordinates'
 import { MapSymbol, pirateSymbol, symbolLabels } from './MapSymbol'
 import type { MapSymbolKind } from './MapSymbol'
 
-const CELL = 32
-const MARGIN = 24
+import { CHART_CELL as CELL, CHART_MARGIN as MARGIN } from '../game/chartGeometry'
 interface Marker { id: string; kind: MapSymbolKind; position: Position }
 
 export function OceanMap({ snapshot, showPatrolAreas = true }: { snapshot: GameSnapshot; showPatrolAreas?: boolean }) {
@@ -35,10 +34,10 @@ export function OceanMap({ snapshot, showPatrolAreas = true }: { snapshot: GameS
         {' '}{snapshot.islands.length} islands, {snapshot.pirates.length} pirates, and {snapshot.monsters.length} sea monsters.
         {' '}Entity positions are also listed in voyage details. Columns run west to east; rows run north to south.</desc>
       <defs><pattern id={gridId} x={MARGIN} y={MARGIN} width={CELL} height={CELL} patternUnits="userSpaceOnUse">
-        <path d={`M ${CELL} 0 H 0 V ${CELL}`} fill="none" stroke="#9ad6c5" strokeOpacity="0.18" strokeWidth="0.7" />
+        <path d={`M ${CELL} 0 H 0 V ${CELL}`} fill="none" stroke="#9ad6c5" strokeOpacity="0.5" strokeWidth="0.7" />
       </pattern></defs>
       <rect x={MARGIN} y={MARGIN} width={width} height={height} rx="2" fill="#0d3542" />
-      <rect x={MARGIN} y={MARGIN} width={width} height={height} fill={`url(#${gridId})`} stroke="#9ad6c5" strokeOpacity="0.25" />
+      <rect x={MARGIN} y={MARGIN} width={width} height={height} fill={`url(#${gridId})`} stroke="#9ad6c5" strokeOpacity="0.6" />
       <g fill="#f4efdf" fillOpacity="0.65" fontFamily="sans-serif" fontSize="10" textAnchor="middle" aria-hidden="true">
         {Array.from({ length: snapshot.width }, (_, column) => <text key={`column-${column}`} x={MARGIN + (column + 0.5) * CELL} y="14">{columnLabel(column)}</text>)}
         {Array.from({ length: snapshot.height }, (_, row) => <text key={`row-${row}`} x="12" y={MARGIN + (row + 0.5) * CELL + 3}>{row + 1}</text>)}

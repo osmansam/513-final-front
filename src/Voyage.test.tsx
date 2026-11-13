@@ -81,3 +81,17 @@ it('can inspect the ended chart without reopening the result dialog on every ren
   fireEvent.click(screen.getByRole('checkbox', { name: 'Show monster patrol areas' }))
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 })
+
+it('moves focus to the chart on arrival and to the welcome heading on return', async () => {
+  setup()
+  await open()
+  expect(screen.getByRole('heading', { name: 'Your ocean chart' })).toHaveFocus()
+  fireEvent.click(screen.getByRole('button', { name: 'New voyage' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Return to harbor' }))
+  expect(await screen.findByRole('heading', { name: 'Beyond the horizon.' })).toHaveFocus()
+})
+it('provides a skip link that focuses the main content', () => {
+  setup()
+  fireEvent.click(screen.getByRole('link', { name: 'Skip to main content' }))
+  expect(screen.getByRole('main')).toHaveFocus()
+})

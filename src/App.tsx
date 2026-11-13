@@ -24,7 +24,10 @@ export default function App() {
         </div>
       </header>
       <main className={`mx-auto max-w-7xl px-6 pb-14 sm:px-10 ${chart.game ? 'pt-8' : 'pt-14 sm:pt-20'}`}>
-        {chart.game ? <GameChart snapshot={chart.game.snapshot} /> : <WelcomeScreen connection={connection}
+        {chart.game ? <GameChart snapshot={chart.game.snapshot} movement={{
+          onMove: chart.move, onRefresh: chart.refreshChart, busy: chart.acting,
+          needsSync: chart.needsSync, feedback: chart.feedback, error: chart.moveError,
+        }} /> : <WelcomeScreen connection={connection}
           onOpenChart={() => { void chart.openChart() }} opening={chart.loading} chartError={chart.error} />}
       </main>
       <footer className="border-t border-parchment/10">

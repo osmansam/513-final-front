@@ -4,11 +4,13 @@ import { formatCoordinate } from '../game/coordinates'
 import { MapSymbol, pirateSymbol, symbolLabels } from './MapSymbol'
 import type { MapSymbolKind } from './MapSymbol'
 import { OceanMap } from './OceanMap'
+import { MovementControls } from './MovementControls'
+import type { MovementProps } from './MovementControls'
 
 const legend: MapSymbolKind[] = ['player', 'treasure', 'island', 'hunter', 'interceptor', 'monster']
 const stateLabels = { PLAYING: 'Exploring', WON: 'Treasure found', LOST: 'Voyage ended' }
 
-export function GameChart({ snapshot }: { snapshot: GameSnapshot }) {
+export function GameChart({ snapshot, movement }: { snapshot: GameSnapshot; movement?: MovementProps }) {
   const [showPatrolAreas, setShowPatrolAreas] = useState(true)
   const enemies = [
     ...snapshot.pirates.map(pirate => ({ id: pirate.id, kind: pirateSymbol(pirate.type), position: pirate.position })),
@@ -49,6 +51,7 @@ export function GameChart({ snapshot }: { snapshot: GameSnapshot }) {
               <div className="flex justify-between gap-3"><dt className="text-parchment/60">Voyage</dt><dd>{stateLabels[snapshot.state]}</dd></div>
             </dl>
           </section>
+          {movement && <MovementControls {...movement} disabled={snapshot.state !== 'PLAYING' || movement.needsSync} />}
           <section className="border border-parchment/15 bg-ocean-900/50 p-5">
             <h2 className="font-display text-xl">On the horizon</h2>
             <p className="mt-2 text-xs text-parchment/50">{snapshot.pirates.length} pirate ships · {snapshot.monsters.length} sea monsters</p>

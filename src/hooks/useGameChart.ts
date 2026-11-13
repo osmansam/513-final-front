@@ -48,7 +48,7 @@ export function useGameChart() {
     }
   }, [replaceGame])
 
-  const openChart = useCallback(async () => {
+  const openChart = useCallback(async (seed?: number) => {
     if (pending.current || current.current) return
     const controller = new AbortController()
     pending.current = controller
@@ -57,7 +57,7 @@ export function useGameChart() {
     setMoveError(null)
     setFeedback(initialFeedback)
     try {
-      const created = await gameApi.createGame(undefined, controller.signal)
+      const created = await gameApi.createGame(seed, controller.signal)
       if (controller.signal.aborted) {
         void gameApi.deleteGame(created.id).catch(() => {})
         return
@@ -124,6 +124,46 @@ export function useGameChart() {
     }
   }, [synchronize])
 
+  const resetVoyage = useCallback(async () => {
+    const active = current.current
+    if (!active || pending.current) return false
+    const controller = new AbortController()
+    pending.current = controller
+    setActing(true)
+    setMoveError(null)
+    try {
+      const view = await gameApi.resetGame(active.id, controller.signal)
+      if (controller.signal.aborted) return false
+      replaceGame(view)
+      setFeedback('A fresh voyage awaits. Choose a direction to sail.')
+      return true
+    } catch {
+      if (controller.signal.aborted) return false
+      uncertain.current = true
+      setNeedsSync(true)
+      const result = await synchronize(active.id, controller.signal)
+      if (result === 'updated') setMoveError('The reset response was interrupted. The chart was refreshed; check your voyage before continuing.')
+      else if (result === 'failed') setMoveError('The reset could not be confirmed. Refresh the chart before sailing again.')
+      return false
+    } finally {
+      if (pending.current === controller) pending.current = null
+      if (!controller.signal.aborted) setActing(false)
+    }
+  }, [replaceGame, synchronize])
+
+  const leaveVoyage = useCallback(() => {
+    if (pending.current) return
+    const active = current.current
+    current.current = null
+    setGame(null)
+    setError(null)
+    setMoveError(null)
+    setFeedback(initialFeedback)
+    uncertain.current = false
+    setNeedsSync(false)
+    if (active) void gameApi.deleteGame(active.id).catch(() => {})
+  }, [])
+
   useEffect(() => () => {
     pending.current?.abort()
     const active = current.current
@@ -131,5 +171,5 @@ export function useGameChart() {
     if (active) void gameApi.deleteGame(active.id).catch(() => {})
   }, [])
 
-  return { game, loading, error, openChart, move, acting, moveError, feedback, needsSync, refreshChart }
+  return { game, loading, error, openChart, move, acting, moveError, feedback, needsSync, refreshChart, resetVoyage, leaveVoyage }
 }

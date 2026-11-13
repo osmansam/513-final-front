@@ -10,7 +10,7 @@ import type { MovementProps } from './MovementControls'
 const legend: MapSymbolKind[] = ['player', 'treasure', 'island', 'hunter', 'interceptor', 'monster']
 const stateLabels = { PLAYING: 'Exploring', WON: 'Treasure found', LOST: 'Voyage ended' }
 
-export function GameChart({ snapshot, movement }: { snapshot: GameSnapshot; movement?: MovementProps }) {
+export function GameChart({ snapshot, movement, paused = false, actions }: { snapshot: GameSnapshot; movement?: MovementProps; paused?: boolean; actions?: { busy: boolean; onReset: () => void; onNew: () => void } }) {
   const [showPatrolAreas, setShowPatrolAreas] = useState(true)
   const enemies = [
     ...snapshot.pirates.map(pirate => ({ id: pirate.id, kind: pirateSymbol(pirate.type), position: pirate.position })),
@@ -20,9 +20,13 @@ export function GameChart({ snapshot, movement }: { snapshot: GameSnapshot; move
     <section aria-labelledby="chart-title">
       <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
         <div><p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">Voyage / Open water</p>
-          <h1 id="chart-title" className="font-display text-4xl tracking-tight sm:text-5xl">Your ocean chart</h1></div>
+          <h1 id="chart-title" tabIndex={-1} className="font-display text-4xl tracking-tight sm:text-5xl">Your ocean chart</h1></div>
         <div className="flex gap-3 text-xs text-parchment/65"><span>{snapshot.width} × {snapshot.height} ocean</span><span aria-hidden="true">·</span><span>Turn {snapshot.turnCount}</span></div>
       </div>
+      {actions && <div className="mb-5 flex flex-wrap gap-3">
+        <button type="button" disabled={actions.busy} onClick={actions.onReset} className="min-h-11 rounded-sm border border-gold/40 px-4 py-2 text-sm text-gold hover:bg-gold/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:opacity-40">Reset voyage</button>
+        <button type="button" disabled={actions.busy} onClick={actions.onNew} className="min-h-11 rounded-sm border border-parchment/25 px-4 py-2 text-sm text-parchment/80 hover:bg-parchment/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:opacity-40">New voyage</button>
+      </div>}
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
         <div className="min-w-0 border border-parchment/15 bg-ocean-950/70 p-3 sm:p-5">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3 px-1">
@@ -51,7 +55,7 @@ export function GameChart({ snapshot, movement }: { snapshot: GameSnapshot; move
               <div className="flex justify-between gap-3"><dt className="text-parchment/60">Voyage</dt><dd>{stateLabels[snapshot.state]}</dd></div>
             </dl>
           </section>
-          {movement && <MovementControls {...movement} disabled={snapshot.state !== 'PLAYING' || movement.needsSync} />}
+          {movement && <MovementControls {...movement} disabled={paused || snapshot.state !== 'PLAYING' || movement.needsSync} />}
           <section className="border border-parchment/15 bg-ocean-900/50 p-5">
             <h2 className="font-display text-xl">On the horizon</h2>
             <p className="mt-2 text-xs text-parchment/50">{snapshot.pirates.length} pirate ships · {snapshot.monsters.length} sea monsters</p>

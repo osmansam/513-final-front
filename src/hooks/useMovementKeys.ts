@@ -12,7 +12,7 @@ export function useMovementKeys(onMove: (direction: Direction) => void, enabled:
     const handleKey = (event: KeyboardEvent) => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.isComposing) return
       if (event.target instanceof Element && event.target.closest(
-        'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="combobox"], [role="slider"], [role="spinbutton"]',
+        '[role="dialog"], input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="combobox"], [role="slider"], [role="spinbutton"]',
       )) return
       const direction = directions[event.key.toLowerCase()]
       if (!direction) return

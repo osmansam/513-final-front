@@ -34,7 +34,7 @@ async function open(move: () => Promise<Response>, read: () => Promise<Response>
   vi.stubGlobal('fetch', fetcher)
   render(<App />)
   await screen.findByText('Connected')
-  fireEvent.click(screen.getByRole('button', { name: 'Open ocean chart' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Start game' }))
   await screen.findByRole('heading', { name: 'Your ocean chart' })
   return fetcher
 }
@@ -112,7 +112,7 @@ it('locks movement until an uncertain state can be refreshed successfully', asyn
 it('returns to the harbor when a restarted backend no longer has the game', async () => {
   await open(async () => jsonResponse({ error: 'Game not found' }, 404), async () => jsonResponse({ error: 'Game not found' }, 404))
   fireEvent.click(screen.getByRole('button', { name: 'Move south' }))
-  expect(await screen.findByRole('heading', { name: 'Beyond the horizon.' })).toBeInTheDocument()
+  expect(await screen.findByRole('heading', { name: 'Columbus Adventure' })).toBeInTheDocument()
   expect(screen.getByRole('alert')).toHaveTextContent('This voyage is no longer available.')
-  expect(screen.getByRole('button', { name: 'Open ocean chart' })).toBeEnabled()
+  expect(screen.getByRole('button', { name: 'Start game' })).toBeEnabled()
 })

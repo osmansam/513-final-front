@@ -20,7 +20,7 @@ export function MovementControls({ onMove, onRefresh, busy, disabled, needsSync,
   useMovementKeys(onMove, !disabled, busy)
   return (
     <section aria-label="Sailing controls" aria-busy={busy} className="border border-parchment/15 bg-ocean-900/70 p-5">
-      <h2 className="font-display text-2xl">Take the helm</h2>
+      <h2 className="font-display text-2xl">Move your ship</h2>
       <p className="mt-2 text-xs leading-6 text-parchment/65">Arrow keys or WASD. One press, one move.</p>
       <div className="mx-auto my-5 grid max-w-52 grid-cols-3 gap-2" style={{ gridTemplateAreas: '". north ." "west center east" ". south ."' }}>
         {buttons.map(button => <button key={button.direction} type="button" aria-label={`Move ${button.direction.toLowerCase()}`}

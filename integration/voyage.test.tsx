@@ -16,7 +16,7 @@ async function open(seed: number) {
   render(<App />)
   await screen.findByText('Connected')
   fireEvent.change(screen.getByRole('textbox', { name: 'Voyage seed (optional)' }), { target: { value: String(seed) } })
-  fireEvent.click(screen.getByRole('button', { name: 'Open ocean chart' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Start game' }))
   await screen.findByRole('heading', { name: 'Your ocean chart' })
 }
 async function sail(directions: Direction[]) {
@@ -40,7 +40,7 @@ it('wins a seeded voyage through React controls and replays the same chart after
   const originalMap = screen.getByRole('img', { name: 'Ocean chart, 20 columns by 20 rows' }).innerHTML
   await sail(['SOUTH', 'SOUTH', 'EAST', 'SOUTH'])
   expect(await screen.findByRole('dialog', { name: 'Treasure found!' })).toHaveTextContent('after 4 turns')
-  fireEvent.click(screen.getByRole('button', { name: 'Sail again' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Play again' }))
   await screen.findByText('Turn 0')
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   expect(screen.getByRole('img', { name: 'Ocean chart, 20 columns by 20 rows' }).innerHTML).toBe(originalMap)
@@ -55,9 +55,9 @@ it('shows a real loss, prevents further moves, and starts a different voyage', a
   fireEvent.keyDown(window, { key: 'd' })
   expect(screen.getByText('Turn 11')).toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: 'New voyage' }))
-  fireEvent.click(screen.getByRole('button', { name: 'Return to harbor' }))
-  await screen.findByRole('heading', { name: 'Beyond the horizon.' })
-  fireEvent.click(screen.getByRole('button', { name: 'Open ocean chart' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Back to start' }))
+  await screen.findByRole('heading', { name: 'Columbus Adventure' })
+  fireEvent.click(screen.getByRole('button', { name: 'Start game' }))
   await screen.findByRole('heading', { name: 'Your ocean chart' })
   expect(screen.getByText('Turn 0')).toBeInTheDocument()
 })
@@ -83,6 +83,6 @@ it('recovers to the harbor when the server no longer has the active session', as
   const deleted = await fetchHttp(`${servers.backendUrl}/api/games/${created!.id}`, { method: 'DELETE' })
   expect(deleted.status).toBe(204)
   fireEvent.click(screen.getByRole('button', { name: 'Move east' }))
-  await screen.findByRole('heading', { name: 'Beyond the horizon.' })
+  await screen.findByRole('heading', { name: 'Columbus Adventure' })
   expect(screen.getByRole('alert')).toHaveTextContent('This voyage is no longer available')
 })

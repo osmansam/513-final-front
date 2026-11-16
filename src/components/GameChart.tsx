@@ -21,7 +21,7 @@ export function GameChart({ snapshot, movement, paused = false, actions }: { sna
   return (
     <section aria-labelledby="chart-title">
       <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-        <div><p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">Voyage / Open water</p>
+        <div><p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">Current game</p>
           <h1 id="chart-title" tabIndex={-1} className="font-display text-4xl tracking-tight sm:text-5xl">Your ocean chart</h1></div>
         <div className="flex gap-3 text-xs text-parchment/65"><span>{snapshot.width} × {snapshot.height} ocean</span><span aria-hidden="true">·</span><span>Turn {snapshot.turnCount}</span></div>
       </div>
@@ -64,7 +64,7 @@ export function GameChart({ snapshot, movement, paused = false, actions }: { sna
         <aside aria-label="Voyage details" className="space-y-5">
           {movement && <MovementControls {...movement} disabled={paused || snapshot.state !== 'PLAYING' || movement.needsSync} />}
           <section className="border border-gold/25 bg-ocean-900/80 p-5">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-gold">Captain’s log</p>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-gold">Game status</p>
             <h2 className="mt-3 font-display text-2xl">Reach the treasure.</h2>
             <p className="mt-3 text-sm leading-7 text-parchment/65">Plan your route around islands and watch the enemies. Every successful step gives them a turn.</p>
             <dl className="mt-5 space-y-3 border-t border-parchment/10 pt-4 text-sm">
@@ -74,7 +74,7 @@ export function GameChart({ snapshot, movement, paused = false, actions }: { sna
             </dl>
           </section>
           <section className="border border-parchment/15 bg-ocean-900/50 p-5">
-            <h2 className="font-display text-xl">On the horizon</h2>
+            <h2 className="font-display text-xl">Enemies</h2>
             <p className="mt-2 text-xs text-parchment/65">{snapshot.pirates.length} pirate ships · {snapshot.monsters.length} sea monsters</p>
             <ul aria-label="Enemy positions" className="mt-4 space-y-3">
               {enemies.map(enemy => <li key={enemy.id} className="flex items-center gap-2">

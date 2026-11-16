@@ -53,26 +53,26 @@ export default function App() {
       </main>
       <footer className="border-t border-parchment/10">
         <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-3 px-4 py-5 text-[10px] uppercase tracking-[0.2em] text-parchment/65 sm:px-10">
-          <p>Christopher Columbus Adventure</p><p>Navigate with care</p>
+          <p>Christopher Columbus Adventure</p><p>CS 513 Final Project</p>
         </div>
       </footer>
     </div>
     {confirmation && chart.game && <Dialog title={confirmation === 'reset' ? 'Reset this voyage?' : 'Leave this voyage?'}
-      description={confirmation === 'reset' ? 'Your progress will be cleared. Seeded voyages replay the same map; ordinary voyages receive a fresh chart.' : 'Your current voyage will be left behind. Return to the harbor to choose a new ocean.'}
+      description={confirmation === 'reset' ? 'This clears your progress. If you entered a seed, the same map will be used. Otherwise, you get a new map.' : 'This ends your current game and takes you back to the start screen.'}
       onClose={() => { if (!chart.acting) setConfirmation(null) }}>
       <div className="mt-6 flex flex-wrap gap-3">
-        <button data-autofocus type="button" disabled={chart.acting} className={secondary} onClick={() => setConfirmation(null)}>Keep sailing</button>
+        <button data-autofocus type="button" disabled={chart.acting} className={secondary} onClick={() => setConfirmation(null)}>Keep playing</button>
         <button type="button" disabled={chart.acting} className={primary} onClick={() => { if (confirmation === 'reset') void reset(); else leave() }}>
-          {chart.acting ? 'Resetting…' : confirmation === 'reset' ? 'Confirm reset' : 'Return to harbor'}
+          {chart.acting ? 'Resetting…' : confirmation === 'reset' ? 'Confirm reset' : 'Back to start'}
         </button>
       </div>
     </Dialog>}
     {resultOpen && chart.game && <Dialog title={chart.game.snapshot.state === 'WON' ? 'Treasure found!' : 'Caught at sea'}
-      description={chart.game.snapshot.state === 'WON' ? `You reached the treasure after ${chart.game.snapshot.turnCount} turns. The ocean’s riches are yours.` : `Your voyage ended after ${chart.game.snapshot.turnCount} turns. A new horizon awaits your next attempt.`}
+      description={chart.game.snapshot.state === 'WON' ? `You reached the treasure after ${chart.game.snapshot.turnCount} turns. You won!` : `Your voyage ended after ${chart.game.snapshot.turnCount} turns. Try again with a new game.`}
       onClose={() => { if (!chart.acting) setDismissedResult(resultKey) }}>
       {chart.moveError && <p role="alert" className="mt-4 text-sm text-rose-200">{chart.moveError}</p>}
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        <button type="button" disabled={chart.acting} className={primary} onClick={() => { void reset() }}>{chart.acting ? 'Preparing…' : 'Sail again'}</button>
+        <button type="button" disabled={chart.acting} className={primary} onClick={() => { void reset() }}>{chart.acting ? 'Preparing…' : 'Play again'}</button>
         <button type="button" disabled={chart.acting} className={secondary} onClick={leave}>New voyage</button>
         <button data-autofocus type="button" disabled={chart.acting} className={`${secondary} sm:col-span-2`} onClick={() => setDismissedResult(resultKey)}>View chart</button>
       </div>

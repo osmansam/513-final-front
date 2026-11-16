@@ -18,7 +18,13 @@ export function MapSymbol({ kind, className = '', ...props }: SVGProps<SVGSVGEle
   return (
     <svg viewBox="0 0 32 32" width={32} height={32} fill="none" className={`${colors[kind]} ${className}`}
       aria-hidden="true" focusable="false" {...props}>
-      {kind === 'island' ? <>
+      {kind === 'player' ? <>
+        <rect x="1" y="1" width="30" height="30" rx="3" fill="currentColor" stroke="white" strokeWidth="1.5" />
+        <path d="M5 18H27L23 23H9Z" fill="white" />
+        <path d="M16 4V18" stroke="white" strokeWidth="1.5" />
+        <path d="M14 5L7 16H14ZM18 8L25 16H18Z" fill="white" />
+        <text x="16" y="29" textAnchor="middle" fill="white" fontFamily="Arial, sans-serif" fontSize="6.5" fontWeight="bold">YOU</text>
+      </> : kind === 'island' ? <>
         <path d="M3 24L8 17L15 15L24 18L29 25L22 29H10Z" fill="#c8b084" />
         <path d="M7 23L11 17L18 16L25 22L21 26H12Z" fill="#659f84" />
         <path d="M17 22V11" stroke="#5c4937" strokeWidth="2" />
@@ -33,11 +39,10 @@ export function MapSymbol({ kind, className = '', ...props }: SVGProps<SVGSVGEle
         <path d="M7 16C7 5 25 5 25 16L22 23H10Z" fill="currentColor" />
         <path d="M12 15L15 17M20 15L17 17" stroke="#091e28" strokeWidth="2" strokeLinecap="round" />
       </> : <>
-        {kind === 'player' && <circle cx="16" cy="16" r="14" fill="currentColor" opacity="0.12" />}
         <path d="M4 23H28L23 29H9Z" fill="currentColor" />
         <path d="M16 4V23" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M14 7L6 20H14ZM18 10L26 20H18Z" fill="currentColor" opacity={kind === 'player' ? '1' : '0.7'} />
-        {kind !== 'player' && <path d="M17 3H26L23 6L26 9H17Z" fill="currentColor" />}
+        <path d="M14 7L6 20H14ZM18 10L26 20H18Z" fill="currentColor" opacity="0.7" />
+        <path d="M17 3H26L23 6L26 9H17Z" fill="currentColor" />
         {(kind === 'hunter' || kind === 'interceptor') && <text x="25" y="15" fill="currentColor" fontFamily="sans-serif" fontSize="7" fontWeight="700" textAnchor="middle">{kind === 'hunter' ? 'H' : 'I'}</text>}
       </>}
     </svg>

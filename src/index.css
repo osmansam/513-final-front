@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ocean-950: #091e28;
-  --color-ocean-900: #102c38;
-  --color-parchment: #f4efdf;
+  --color-ocean-950: #142b3b;
+  --color-ocean-900: #1e3a4d;
+  --color-parchment: #f1f5f9;
   --color-gold: #e4b96f;
   --color-seafoam: #9ad6c5;
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-display: Arial, Helvetica, sans-serif;
 }
 
 :root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #f4efdf;
-  background: #091e28;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #f1f5f9;
+  background: #142b3b;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -20,13 +20,8 @@
 }
 body { margin: 0; min-width: 320px; }
 button { font: inherit; }
-::selection { background: #e4b96f; color: #091e28; }
-.chart-background {
-  background-color: #091e28;
-  background-image: radial-gradient(ellipse at 78% 25%, #16445366, transparent 53%),
-    linear-gradient(#f4efdf03 1px, transparent 1px), linear-gradient(90deg, #f4efdf03 1px, transparent 1px);
-  background-size: auto, 48px 48px, 48px 48px;
-}
+::selection { background: #e4b96f; color: #142b3b; }
+.chart-background { background-color: #142b3b; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -19,42 +19,40 @@ export function WelcomeScreen({ connection, onOpenChart, opening, chartError }: 
         <section className="mx-auto max-w-2xl" aria-labelledby="welcome-title">
           <div className="min-w-0">
             <h1 id="welcome-title" tabIndex={-1} className="text-3xl font-bold">Columbus Adventure</h1>
-            <p className="mt-3 text-sm leading-6 text-parchment/80">Reach the treasure without getting caught by pirates or sea monsters. Use the arrow keys or WASD to move.</p>
-            <section aria-labelledby="harbor-title" className="mt-6 rounded border border-parchment/25 bg-ocean-900 p-5">
+            <p className="mt-3 text-sm leading-6 text-gray-800">Reach the treasure without getting caught by pirates or sea monsters. Use the arrow keys or WASD to move.</p>
+            <section aria-labelledby="harbor-title" className="mt-6 rounded border border-gray-300 bg-white p-5">
               <p id="harbor-title" className="text-base font-medium">{connected ? 'Ready to play' : checking ? 'Connecting to the server' : 'Cannot connect to the server'}</p>
-              <p className="mt-2 text-sm leading-6 text-parchment/65" role={status === 'offline' ? 'alert' : undefined}>
+              <p className="mt-2 text-sm leading-6 text-gray-800" role={status === 'offline' ? 'alert' : undefined}>
                 {connected ? 'Start a game below.' : checking ? 'Checking the game server.' : error}
               </p>
-              {status === 'offline' && <p className="mt-2 text-sm leading-6 text-parchment/65">Start the game server, then reconnect.</p>}
+              {status === 'offline' && <p className="mt-2 text-sm leading-6 text-gray-800">Start the game server, then reconnect.</p>}
               {connected && <form aria-label="Voyage setup" onSubmit={event => {
                 event.preventDefault()
                 try { const value = parseSeed(seed); setSeedError(null); onOpenChart(value) }
                 catch (failure) { setSeedError(failure instanceof Error ? failure.message : 'Use a whole-number seed.') }
               }}>
-                <label className="mt-5 block text-xs text-parchment/75">Voyage seed (optional)
+                <label className="mt-5 block text-xs text-gray-800">Voyage seed (optional)
                   <input type="text" inputMode="numeric" value={seed} disabled={opening} aria-invalid={Boolean(seedError)}
                     aria-describedby={seedError ? 'seed-hint seed-error' : 'seed-hint'}
                     onChange={event => { setSeed(event.target.value); setSeedError(null) }} placeholder="Leave blank for a random map"
-                    className="mt-2 min-h-11 w-full rounded-sm border border-parchment/25 bg-ocean-950 px-3 py-2 text-sm text-parchment placeholder:text-parchment/65 focus-visible:outline-2 focus-visible:outline-gold disabled:opacity-50" />
+                    className="mt-2 min-h-11 w-full rounded-sm border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder:text-gray-500 focus-visible:outline-2 focus-visible:outline-blue-700 disabled:opacity-50" />
                 </label>
-                <p id="seed-hint" className="mt-2 text-xs leading-6 text-parchment/65">Use the same number to replay a map, or leave blank for a new one.</p>
-                {seedError && <p id="seed-error" role="alert" className="mt-2 text-sm text-rose-200">{seedError}</p>}
-                <button type="submit" disabled={opening}
-                className="mt-5 mr-3 inline-flex min-h-11 items-center justify-center gap-3 rounded-sm bg-gold px-5 py-3 text-sm font-semibold text-ocean-950 transition-colors hover:bg-[#efcb8c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold disabled:cursor-wait disabled:opacity-60">
+                <p id="seed-hint" className="mt-2 text-xs leading-6 text-gray-800">Use the same number to replay a map, or leave blank for a new one.</p>
+                {seedError && <p id="seed-error" role="alert" className="mt-2 text-sm text-red-700">{seedError}</p>}
+                <button type="submit" disabled={opening}>
                 {opening ? 'Starting game…' : 'Start game'}
               </button></form>}
-              {chartError && <p role="alert" className="mt-4 text-sm leading-6 text-rose-200">{chartError}</p>}
-              <button type="button" onClick={() => { void refresh() }} disabled={checking}
-                className="mt-5 inline-flex min-h-11 items-center justify-center gap-3 rounded-sm border border-parchment/25 px-5 py-3 text-sm font-semibold text-parchment transition-colors hover:bg-parchment/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold disabled:cursor-wait disabled:opacity-60">
+              {chartError && <p role="alert" className="mt-4 text-sm leading-6 text-red-700">{chartError}</p>}
+              <button type="button" onClick={() => { void refresh() }} disabled={checking}>
                 {checking ? 'Checking connection…' : connected ? 'Check connection' : 'Reconnect'}
 
               </button>
             </section>
           </div>
         </section>
-        <section aria-labelledby="instructions-title" className="mx-auto mt-6 max-w-2xl rounded border border-parchment/25 p-5">
+        <section aria-labelledby="instructions-title" className="mx-auto mt-6 max-w-2xl rounded border border-gray-300 p-5">
           <h2 id="instructions-title" className="text-lg font-semibold">How to play</h2>
-          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-parchment/80">
+          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-gray-800">
             <li>Use the arrow keys, WASD, or the on-screen buttons to move one square.</li>
             <li>Go around islands and reach the treasure to win.</li>
             <li>Pirates and sea monsters move after each valid move. If one catches your ship, you lose.</li>

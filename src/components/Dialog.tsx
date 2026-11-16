@@ -38,12 +38,12 @@ export function Dialog({ title, description, children, onClose }: {
     }
   }, [])
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-ocean-950/85 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/30 p-4">
       <section ref={panel} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby={`${id}-title`}
         aria-describedby={description ? `${id}-description` : undefined}
-        className="my-auto w-full max-w-lg border border-gold/40 bg-ocean-900 p-6 text-parchment shadow-2xl outline-none sm:p-8">
-        <h2 id={`${id}-title`} className="font-display text-3xl sm:text-4xl">{title}</h2>
-        {description && <p id={`${id}-description`} className="mt-4 text-sm leading-7 text-parchment/75">{description}</p>}
+        className="my-auto w-full max-w-lg border border-gray-300 bg-white p-6 text-gray-800 outline-none">
+        <h2 id={`${id}-title`} className="text-xl font-bold">{title}</h2>
+        {description && <p id={`${id}-description`} className="mt-4 text-sm leading-7 text-gray-800">{description}</p>}
         {children}
       </section>
     </div>, document.body,

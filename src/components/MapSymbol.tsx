@@ -7,8 +7,8 @@ export const symbolLabels: Record<MapSymbolKind, string> = {
   hunter: 'Hunter pirate', interceptor: 'Interceptor pirate', monster: 'Sea monster',
 }
 const colors: Record<MapSymbolKind, string> = {
-  player: 'text-seafoam', treasure: 'text-gold', island: 'text-emerald-300', pirate: 'text-rose-300',
-  hunter: 'text-rose-300', interceptor: 'text-orange-200', monster: 'text-violet-300',
+  player: 'text-blue-700', treasure: 'text-amber-700', island: 'text-green-700', pirate: 'text-red-700',
+  hunter: 'text-red-700', interceptor: 'text-orange-700', monster: 'text-purple-700',
 }
 export function pirateSymbol(type: PirateType): MapSymbolKind {
   return type === 'HUNTER' ? 'hunter' : type === 'INTERCEPTOR' ? 'interceptor' : 'pirate'

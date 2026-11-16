@@ -22,20 +22,18 @@ export default function App() {
   const modalOpen = Boolean(chart.game && confirmation) || resultOpen
   const reset = async () => { await chart.resetVoyage(); setConfirmation(null); setDismissedResult(null) }
   const leave = () => { chart.leaveVoyage(); setConfirmation(null); setDismissedResult(null) }
-  const primary = 'min-h-11 rounded-sm bg-gold px-5 py-3 text-sm font-semibold text-ocean-950 hover:bg-[#efcb8c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:opacity-40'
-  const secondary = 'min-h-11 rounded-sm border border-parchment/30 px-5 py-3 text-sm text-parchment hover:bg-parchment/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:opacity-40'
   return (
     <>
-    <div inert={modalOpen} className="chart-background min-h-screen text-parchment">
+    <div inert={modalOpen} className="min-h-screen text-gray-800">
       <a href="#main-content" onClick={event => { event.preventDefault(); document.getElementById('main-content')?.focus() }}
-        className="sr-only z-50 rounded-sm bg-gold px-4 py-3 text-ocean-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to main content</a>
-      <header className="border-b border-parchment/10">
+        className="sr-only z-50 rounded-sm bg-gray-200 px-4 py-3 text-gray-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to main content</a>
+      <header className="border-b border-gray-300">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <div className="flex items-center gap-3">
             <p className="text-lg font-semibold">Columbus Adventure</p>
           </div>
-          <div role="status" aria-live="polite" className="flex items-center gap-2 px-2 py-1 text-xs text-parchment/75">
-            <span aria-hidden="true" className={`size-1.5 rounded-full ${status === 'connected' ? 'bg-seafoam' : status === 'checking' ? 'bg-gold' : 'bg-rose-300'}`} />
+          <div role="status" aria-live="polite" className="flex items-center gap-2 px-2 py-1 text-xs text-gray-800">
+            <span aria-hidden="true" className={`size-1.5 rounded-full ${status === 'connected' ? 'bg-green-700' : status === 'checking' ? 'bg-gray-200' : 'bg-red-700'}`} />
             {status === 'connected' ? 'Connected' : status === 'checking' ? 'Connecting' : 'Unavailable'}
           </div>
         </div>
@@ -48,8 +46,8 @@ export default function App() {
         }} /> : <WelcomeScreen connection={connection}
           onOpenChart={seed => { void chart.openChart(seed) }} opening={chart.loading} chartError={chart.error} />}
       </main>
-      <footer className="border-t border-parchment/10">
-        <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 px-4 py-4 text-xs text-parchment/65 sm:px-6">
+      <footer className="border-t border-gray-300">
+        <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 px-4 py-4 text-xs text-gray-800 sm:px-6">
           <p>Christopher Columbus Adventure</p><p>CS 513 Final Project</p>
         </div>
       </footer>
@@ -58,8 +56,8 @@ export default function App() {
       description={confirmation === 'reset' ? 'This clears your progress. If you entered a seed, the same map will be used. Otherwise, you get a new map.' : 'This ends your current game and takes you back to the start screen.'}
       onClose={() => { if (!chart.acting) setConfirmation(null) }}>
       <div className="mt-6 flex flex-wrap gap-3">
-        <button data-autofocus type="button" disabled={chart.acting} className={secondary} onClick={() => setConfirmation(null)}>Keep playing</button>
-        <button type="button" disabled={chart.acting} className={primary} onClick={() => { if (confirmation === 'reset') void reset(); else leave() }}>
+        <button data-autofocus type="button" disabled={chart.acting} onClick={() => setConfirmation(null)}>Keep playing</button>
+        <button type="button" disabled={chart.acting} onClick={() => { if (confirmation === 'reset') void reset(); else leave() }}>
           {chart.acting ? 'Resetting…' : confirmation === 'reset' ? 'Confirm reset' : 'Back to start'}
         </button>
       </div>
@@ -67,11 +65,11 @@ export default function App() {
     {resultOpen && chart.game && <Dialog title={chart.game.snapshot.state === 'WON' ? 'Treasure found!' : 'Caught at sea'}
       description={chart.game.snapshot.state === 'WON' ? `You reached the treasure after ${chart.game.snapshot.turnCount} turns. You won!` : `Your voyage ended after ${chart.game.snapshot.turnCount} turns. Try again with a new game.`}
       onClose={() => { if (!chart.acting) setDismissedResult(resultKey) }}>
-      {chart.moveError && <p role="alert" className="mt-4 text-sm text-rose-200">{chart.moveError}</p>}
+      {chart.moveError && <p role="alert" className="mt-4 text-sm text-red-700">{chart.moveError}</p>}
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        <button type="button" disabled={chart.acting} className={primary} onClick={() => { void reset() }}>{chart.acting ? 'Preparing…' : 'Play again'}</button>
-        <button type="button" disabled={chart.acting} className={secondary} onClick={leave}>New voyage</button>
-        <button data-autofocus type="button" disabled={chart.acting} className={`${secondary} sm:col-span-2`} onClick={() => setDismissedResult(resultKey)}>View chart</button>
+        <button type="button" disabled={chart.acting} onClick={() => { void reset() }}>{chart.acting ? 'Preparing…' : 'Play again'}</button>
+        <button type="button" disabled={chart.acting} onClick={leave}>New voyage</button>
+        <button data-autofocus type="button" disabled={chart.acting} className="sm:col-span-2" onClick={() => setDismissedResult(resultKey)}>View chart</button>
       </div>
     </Dialog>}
     </>

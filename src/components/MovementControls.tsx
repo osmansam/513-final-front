@@ -19,22 +19,20 @@ const buttons: { direction: Direction; arrow: string; key: string; shortcut: str
 export function MovementControls({ onMove, onRefresh, busy, disabled, needsSync, feedback, error }: MovementProps & { disabled: boolean }) {
   useMovementKeys(onMove, !disabled, busy)
   return (
-    <section aria-label="Sailing controls" aria-busy={busy} className="rounded border border-parchment/25 bg-ocean-900 p-4">
+    <section aria-label="Sailing controls" aria-busy={busy} className="rounded border border-gray-300 bg-white p-4">
       <h2 className="text-lg font-semibold">Move your ship</h2>
-      <p className="mt-2 text-xs leading-6 text-parchment/65">Arrow keys or WASD. One press, one move.</p>
+      <p className="mt-2 text-xs leading-6 text-gray-800">Arrow keys or WASD. One press, one move.</p>
       <div className="mx-auto my-5 grid max-w-52 grid-cols-3 gap-2" style={{ gridTemplateAreas: '". north ." "west center east" ". south ."' }}>
         {buttons.map(button => <button key={button.direction} type="button" aria-label={`Move ${button.direction.toLowerCase()}`}
           aria-keyshortcuts={button.shortcut} disabled={disabled || busy} onClick={() => onMove(button.direction)}
-          style={{ gridArea: button.direction.toLowerCase() }}
-          className="flex min-h-14 flex-col items-center justify-center rounded-sm border border-seafoam/35 bg-seafoam/10 text-seafoam transition-colors hover:bg-seafoam/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:cursor-not-allowed disabled:opacity-35">
-          <span aria-hidden="true" className="text-xl leading-6">{button.arrow}</span><kbd aria-hidden="true" className="text-[10px]">{button.key}</kbd>
+          style={{ gridArea: button.direction.toLowerCase() }}>
+          <span aria-hidden="true">{button.arrow}</span><kbd aria-hidden="true">{button.key}</kbd>
         </button>)}
-        <span aria-hidden="true" style={{ gridArea: 'center' }} className="flex items-center justify-center text-xs text-parchment/80">Sail</span>
+        <span aria-hidden="true" style={{ gridArea: 'center' }} className="flex items-center justify-center text-xs text-gray-800">Sail</span>
       </div>
-      <p role="status" aria-label="Sailing feedback" aria-live="polite" className="text-sm leading-6 text-parchment/75">{busy ? 'Updating chart…' : feedback}</p>
-      {error && <p role="alert" className="mt-3 text-sm leading-6 text-rose-200">{error}</p>}
-      {needsSync && <button type="button" disabled={busy} onClick={onRefresh}
-        className="mt-4 min-h-11 w-full rounded-sm border border-gold/50 px-4 py-2 text-sm text-gold hover:bg-gold/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:opacity-40">
+      <p role="status" aria-label="Sailing feedback" aria-live="polite" className="text-sm leading-6 text-gray-800">{busy ? 'Updating chart…' : feedback}</p>
+      {error && <p role="alert" className="mt-3 text-sm leading-6 text-red-700">{error}</p>}
+      {needsSync && <button type="button" disabled={busy} onClick={onRefresh}>
         {busy ? 'Refreshing…' : 'Refresh chart'}
       </button>}
     </section>

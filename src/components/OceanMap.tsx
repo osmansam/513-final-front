@@ -34,11 +34,11 @@ export function OceanMap({ snapshot, showPatrolAreas = true }: { snapshot: GameS
         {' '}{snapshot.islands.length} islands, {snapshot.pirates.length} pirates, and {snapshot.monsters.length} sea monsters.
         {' '}Entity positions are also listed in voyage details. Island coordinates and monster patrol bounds are available in Map details below the chart. Columns run west to east; rows run north to south.</desc>
       <defs><pattern id={gridId} x={MARGIN} y={MARGIN} width={CELL} height={CELL} patternUnits="userSpaceOnUse">
-        <path d={`M ${CELL} 0 H 0 V ${CELL}`} fill="none" stroke="#9ad6c5" strokeOpacity="0.5" strokeWidth="0.7" />
+        <path d={`M ${CELL} 0 H 0 V ${CELL}`} fill="none" stroke="#64748b" strokeOpacity="0.5" strokeWidth="0.7" />
       </pattern></defs>
-      <rect x={MARGIN} y={MARGIN} width={width} height={height} rx="2" fill="#0d3542" />
-      <rect x={MARGIN} y={MARGIN} width={width} height={height} fill={`url(#${gridId})`} stroke="#9ad6c5" strokeOpacity="0.6" />
-      <g fill="#f4efdf" fillOpacity="0.65" fontFamily="sans-serif" fontSize="10" textAnchor="middle" aria-hidden="true">
+      <rect x={MARGIN} y={MARGIN} width={width} height={height} rx="2" fill="#e6f3fa" />
+      <rect x={MARGIN} y={MARGIN} width={width} height={height} fill={`url(#${gridId})`} stroke="#64748b" strokeOpacity="0.6" />
+      <g fill="#222222" fillOpacity="0.65" fontFamily="sans-serif" fontSize="10" textAnchor="middle" aria-hidden="true">
         {Array.from({ length: snapshot.width }, (_, column) => <text key={`column-${column}`} x={MARGIN + (column + 0.5) * CELL} y="14">{columnLabel(column)}</text>)}
         {Array.from({ length: snapshot.height }, (_, row) => <text key={`row-${row}`} x="12" y={MARGIN + (row + 0.5) * CELL + 3}>{row + 1}</text>)}
       </g>
@@ -46,7 +46,7 @@ export function OceanMap({ snapshot, showPatrolAreas = true }: { snapshot: GameS
         x={MARGIN + monster.roamingArea.minX * CELL} y={MARGIN + monster.roamingArea.minY * CELL}
         width={(monster.roamingArea.maxX - monster.roamingArea.minX + 1) * CELL}
         height={(monster.roamingArea.maxY - monster.roamingArea.minY + 1) * CELL}
-        fill="#c4b5fd" fillOpacity="0.08" stroke="#c4b5fd" strokeOpacity="0.5" strokeDasharray="5 4" strokeWidth="1" />)}
+        fill="#7e22ce" fillOpacity="0.08" stroke="#7e22ce" strokeOpacity="0.5" strokeDasharray="5 4" strokeWidth="1" />)}
       {snapshot.islands.map(position => <g key={`island-${position.x}-${position.y}`} transform={`translate(${MARGIN + position.x * CELL} ${MARGIN + position.y * CELL})`}>
         <title>{`Island · ${formatCoordinate(position)}`}</title><MapSymbol kind="island" />
       </g>)}

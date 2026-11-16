@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import { parseSeed } from '../game/seed'
-import { CompassRose } from './CompassRose'
 import type { useServerConnection } from '../hooks/useServerConnection'
-
-const principles = [
-  { number: '01', title: 'Find the treasure', description: 'Move your ship to the treasure. Islands block your path.' },
-  { number: '02', title: 'Avoid the pirates', description: 'Hunters chase your ship. Interceptors try to cut off your next move.' },
-  { number: '03', title: 'Watch for sea monsters', description: 'Sea monsters move inside their patrol areas. A collision ends the game.' },
-]
 
 interface Props {
   connection: ReturnType<typeof useServerConnection>
@@ -23,12 +16,11 @@ export function WelcomeScreen({ connection, onOpenChart, opening, chartError }: 
   const connected = status === 'connected'
   const checking = status === 'checking'
   return <>
-        <section className="grid items-center gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16" aria-labelledby="welcome-title">
+        <section className="mx-auto max-w-2xl" aria-labelledby="welcome-title">
           <div className="min-w-0">
-            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">Christopher Columbus Adventure</p>
-            <h1 id="welcome-title" tabIndex={-1} className="max-w-2xl font-display text-6xl leading-[1.04] tracking-[-0.04em] sm:text-7xl xl:text-8xl">Columbus Adventure</h1>
-            <p className="mt-7 max-w-md text-base leading-8 text-parchment/65 sm:text-lg">Reach the treasure without getting caught by pirates or sea monsters. Use the arrow keys or WASD to move.</p>
-            <section aria-labelledby="harbor-title" className="mt-9 max-w-lg border-l-2 border-gold/70 bg-ocean-900/70 p-5 sm:p-6">
+            <h1 id="welcome-title" tabIndex={-1} className="text-3xl font-bold">Columbus Adventure</h1>
+            <p className="mt-3 text-sm leading-6 text-parchment/80">Reach the treasure without getting caught by pirates or sea monsters. Use the arrow keys or WASD to move.</p>
+            <section aria-labelledby="harbor-title" className="mt-6 rounded border border-parchment/25 bg-ocean-900 p-5">
               <p id="harbor-title" className="text-base font-medium">{connected ? 'Ready to play' : checking ? 'Connecting to the server' : 'Cannot connect to the server'}</p>
               <p className="mt-2 text-sm leading-6 text-parchment/65" role={status === 'offline' ? 'alert' : undefined}>
                 {connected ? 'Start a game below.' : checking ? 'Checking the game server.' : error}
@@ -49,30 +41,25 @@ export function WelcomeScreen({ connection, onOpenChart, opening, chartError }: 
                 {seedError && <p id="seed-error" role="alert" className="mt-2 text-sm text-rose-200">{seedError}</p>}
                 <button type="submit" disabled={opening}
                 className="mt-5 mr-3 inline-flex min-h-11 items-center justify-center gap-3 rounded-sm bg-gold px-5 py-3 text-sm font-semibold text-ocean-950 transition-colors hover:bg-[#efcb8c] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold disabled:cursor-wait disabled:opacity-60">
-                {opening ? 'Starting game…' : 'Start game'}<span aria-hidden="true">↗</span>
+                {opening ? 'Starting game…' : 'Start game'}
               </button></form>}
               {chartError && <p role="alert" className="mt-4 text-sm leading-6 text-rose-200">{chartError}</p>}
               <button type="button" onClick={() => { void refresh() }} disabled={checking}
                 className="mt-5 inline-flex min-h-11 items-center justify-center gap-3 rounded-sm border border-parchment/25 px-5 py-3 text-sm font-semibold text-parchment transition-colors hover:bg-parchment/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold disabled:cursor-wait disabled:opacity-60">
                 {checking ? 'Checking connection…' : connected ? 'Check connection' : 'Reconnect'}
-                <span aria-hidden="true">↗</span>
+
               </button>
             </section>
           </div>
-          <div className="relative mx-auto flex aspect-square w-full max-w-md items-center justify-center lg:max-w-lg" aria-hidden="true">
-            <div className="absolute inset-[8%] rounded-full border border-seafoam/10 bg-seafoam/[0.025]" />
-            <CompassRose className="relative w-[87%] text-gold/80" />
-            <p className="absolute bottom-0 text-[10px] tracking-[0.35em] text-parchment/65">FIND THE TREASURE</p>
-          </div>
         </section>
-        <section className="mt-14 grid gap-7 border-t border-parchment/15 pt-8 sm:mt-20 md:grid-cols-3 md:gap-10" aria-label="Your adventure">
-          {principles.map(({ number, title, description }) => (
-            <article key={number} className="min-w-0">
-              <p className="mb-4 font-display text-sm text-gold/75">{number} /</p>
-              <h2 className="font-display text-2xl">{title}</h2>
-              <p className="mt-3 max-w-sm text-sm leading-7 text-parchment/65">{description}</p>
-            </article>
-          ))}
+        <section aria-labelledby="instructions-title" className="mx-auto mt-6 max-w-2xl rounded border border-parchment/25 p-5">
+          <h2 id="instructions-title" className="text-lg font-semibold">How to play</h2>
+          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-parchment/80">
+            <li>Use the arrow keys, WASD, or the on-screen buttons to move one square.</li>
+            <li>Go around islands and reach the treasure to win.</li>
+            <li>Pirates and sea monsters move after each valid move. If one catches your ship, you lose.</li>
+            <li>Hunters chase you, interceptors try to cut you off, and sea monsters stay in their patrol areas.</li>
+          </ol>
         </section>
   </>
 }

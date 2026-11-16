@@ -19,16 +19,14 @@ const buttons: { direction: Direction; arrow: string; key: string; shortcut: str
 export function MovementControls({ onMove, onRefresh, busy, disabled, needsSync, feedback, error }: MovementProps & { disabled: boolean }) {
   useMovementKeys(onMove, !disabled, busy)
   return (
-    <section aria-label="Sailing controls" aria-busy={busy} className="rounded border border-gray-300 bg-white p-4">
-      <h2 className="text-lg font-semibold">Move your ship</h2>
+    <section aria-label="Sailing controls" aria-busy={busy} >
+      <h2 className="font-bold">Move your ship</h2>
       <p className="mt-2 text-xs leading-6 text-gray-800">Arrow keys or WASD. One press, one move.</p>
-      <div className="mx-auto my-5 grid max-w-52 grid-cols-3 gap-2" style={{ gridTemplateAreas: '". north ." "west center east" ". south ."' }}>
+      <div className="my-2 flex flex-wrap gap-2">
         {buttons.map(button => <button key={button.direction} type="button" aria-label={`Move ${button.direction.toLowerCase()}`}
-          aria-keyshortcuts={button.shortcut} disabled={disabled || busy} onClick={() => onMove(button.direction)}
-          style={{ gridArea: button.direction.toLowerCase() }}>
-          <span aria-hidden="true">{button.arrow}</span><kbd aria-hidden="true">{button.key}</kbd>
+          aria-keyshortcuts={button.shortcut} disabled={disabled || busy} onClick={() => onMove(button.direction)}>
+          <span aria-hidden="true">{button.arrow} {button.key}</span>
         </button>)}
-        <span aria-hidden="true" style={{ gridArea: 'center' }} className="flex items-center justify-center text-xs text-gray-800">Sail</span>
       </div>
       <p role="status" aria-label="Sailing feedback" aria-live="polite" className="text-sm leading-6 text-gray-800">{busy ? 'Updating chart…' : feedback}</p>
       {error && <p role="alert" className="mt-3 text-sm leading-6 text-red-700">{error}</p>}

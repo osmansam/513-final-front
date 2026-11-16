@@ -28,8 +28,8 @@ export function GameChart({ snapshot, movement, paused = false, actions }: { sna
         <button type="button" disabled={actions.busy} onClick={actions.onReset}>Reset voyage</button>
         <button type="button" disabled={actions.busy} onClick={actions.onNew}>New voyage</button>
       </div>}
-      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_260px]">
-        <div className="min-w-0 rounded border border-gray-300 bg-white p-3 sm:p-4">
+      <div className="grid items-start gap-6 md:grid-cols-[minmax(0,560px)_220px]">
+        <div className="min-w-0">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3 px-1">
             <p className="text-xs text-gray-800">North ↑</p>
             <label className="flex cursor-pointer items-center gap-2 text-xs text-gray-800">
@@ -62,22 +62,20 @@ export function GameChart({ snapshot, movement, paused = false, actions }: { sna
         </div>
         <aside aria-label="Voyage details" className="space-y-4">
           {movement && <MovementControls {...movement} disabled={paused || snapshot.state !== 'PLAYING' || movement.needsSync} />}
-          <section className="rounded border border-gray-300 bg-white p-4">
-            <p className="text-sm font-semibold text-gray-800">Game status</p>
-            <h2 className="mt-3 text-lg font-semibold">Reach the treasure.</h2>
-            <p className="mt-3 text-sm leading-7 text-gray-800">Plan your route around islands and watch the enemies. Every successful step gives them a turn.</p>
-            <dl className="mt-5 space-y-3 border-t border-gray-300 pt-4 text-sm">
+          <section >
+            <h2 className="font-bold">Game status</h2>
+            <dl className="mt-2 space-y-1 text-sm">
               <div className="flex justify-between gap-3"><dt className="text-gray-800">Your position</dt><dd className="font-semibold text-gray-800">{formatCoordinate(snapshot.player)}</dd></div>
               <div className="flex justify-between gap-3"><dt className="text-gray-800">Treasure</dt><dd className="font-semibold text-gray-800">{formatCoordinate(snapshot.treasure)}</dd></div>
               <div className="flex justify-between gap-3"><dt className="text-gray-800">Voyage</dt><dd>{stateLabels[snapshot.state]}</dd></div>
             </dl>
           </section>
-          <section className="rounded border border-gray-300 bg-white p-4">
-            <h2 className="text-lg font-semibold">Enemies</h2>
+          <section >
+            <h2 className="font-bold">Enemies</h2>
             <p className="mt-2 text-xs text-gray-800">{snapshot.pirates.length} pirate ships · {snapshot.monsters.length} sea monsters</p>
-            <ul aria-label="Enemy positions" className="mt-4 space-y-3">
+            <ul aria-label="Enemy positions" className="mt-2 space-y-1">
               {enemies.map(enemy => <li key={enemy.id} className="flex items-center gap-2">
-                <MapSymbol kind={enemy.kind} className="size-8 shrink-0" /><span className="flex-1 text-xs text-gray-800">{symbolLabels[enemy.kind]}</span>
+                <span className="flex-1 text-xs text-gray-800">{symbolLabels[enemy.kind]}</span>
                 <span className="text-xs tabular-nums text-gray-800">{formatCoordinate(enemy.position)}</span>
               </li>)}
             </ul>

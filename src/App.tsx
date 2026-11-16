@@ -28,17 +28,16 @@ export default function App() {
       <a href="#main-content" onClick={event => { event.preventDefault(); document.getElementById('main-content')?.focus() }}
         className="sr-only z-50 rounded-sm bg-gray-200 px-4 py-3 text-gray-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to main content</a>
       <header className="border-b border-gray-300">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <p className="text-lg font-semibold">Columbus Adventure</p>
+            <p>CS 513 Final Project</p>
           </div>
           <div role="status" aria-live="polite" className="flex items-center gap-2 px-2 py-1 text-xs text-gray-800">
-            <span aria-hidden="true" className={`size-1.5 rounded-full ${status === 'connected' ? 'bg-green-700' : status === 'checking' ? 'bg-gray-200' : 'bg-red-700'}`} />
             {status === 'connected' ? 'Connected' : status === 'checking' ? 'Connecting' : 'Unavailable'}
           </div>
         </div>
       </header>
-      <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
         {chart.game ? <GameChart snapshot={chart.game.snapshot} paused={modalOpen}
           actions={{ busy: chart.acting, onReset: () => setConfirmation('reset'), onNew: () => setConfirmation('new') }} movement={{
           onMove: chart.move, onRefresh: chart.refreshChart, busy: chart.acting,
@@ -47,8 +46,8 @@ export default function App() {
           onOpenChart={seed => { void chart.openChart(seed) }} opening={chart.loading} chartError={chart.error} />}
       </main>
       <footer className="border-t border-gray-300">
-        <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 px-4 py-4 text-xs text-gray-800 sm:px-6">
-          <p>Christopher Columbus Adventure</p><p>CS 513 Final Project</p>
+        <div className="mx-auto flex max-w-5xl flex-wrap justify-between gap-3 px-4 py-4 text-xs text-gray-800 sm:px-6">
+          <p>Columbus Adventure</p>
         </div>
       </footer>
     </div>
